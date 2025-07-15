@@ -1,6 +1,8 @@
+DROP DATABASE IF EXISTS fichasnotasdb CASCADE;
 CREATE DATABASE fichasnotasdb;
 \c fichasnotasdb;
 
+DROP TABLE IF EXISTS carrera;
 CREATE TABLE carrera (
     id_carrera SERIAL PRIMARY KEY,
     codigo_carrera VARCHAR(50),
@@ -8,6 +10,7 @@ CREATE TABLE carrera (
     UNIQUE (codigo_carrera)
 );
 
+DROP TABLE IF EXISTS estudiante CASCADE;
 CREATE TABLE estudiante (
     id_estudiante SERIAL PRIMARY KEY,
     ci_pasaporte VARCHAR(20) UNIQUE,
@@ -31,6 +34,7 @@ CREATE TABLE estudiante (
     recibe_ayuda BOOLEAN
 );
 
+DROP TABLE IF EXISTS asignatura CASCADE;
 CREATE TABLE asignatura (
     id_asignatura SERIAL PRIMARY KEY,
     id_carrera INT REFERENCES carrera(id_carrera),
@@ -38,6 +42,7 @@ CREATE TABLE asignatura (
     UNIQUE (nombre_asignatura)
 );
 
+DROP TABLE IF EXISTS estudiante_carrera CASCADE;
 CREATE TABLE estudiante_carrera (
     id_estudiante_carrera SERIAL PRIMARY KEY,
     id_carrera INT REFERENCES carrera(id_carrera),
@@ -47,6 +52,7 @@ CREATE TABLE estudiante_carrera (
     paralelo VARCHAR(11)
 );
 
+DROP TABLE IF EXISTS estudiante_asignatura CASCADE;
 CREATE TABLE estudiante_asignatura (
     id_estudiante_carrera INT,
     id_asignatura INT,
@@ -61,6 +67,7 @@ CREATE TABLE estudiante_asignatura (
     FOREIGN KEY (id_asignatura) REFERENCES asignatura(id_asignatura)
 );
 
+DROP TABLE IF EXISTS  CASCADE;
 CREATE TABLE colegio_graduacion (
     id_colegio SERIAL PRIMARY KEY,
     id_estudiante INT UNIQUE REFERENCES estudiante(id_estudiante),
@@ -70,6 +77,7 @@ CREATE TABLE colegio_graduacion (
     anio_graduacion INT
 );
 
+DROP TABLE IF EXISTS contacto_emergencia CASCADE;
 CREATE TABLE contacto_emergencia (
     id_contacto_emergencia SERIAL PRIMARY KEY,
     id_estudiante INT REFERENCES estudiante(id_estudiante),
@@ -77,6 +85,7 @@ CREATE TABLE contacto_emergencia (
     telefono_contacto VARCHAR(20)
 );
 
+DROP TABLE IF EXISTS datos_salud CASCADE;
 CREATE TABLE datos_salud (
     id_datos_salud SERIAL PRIMARY KEY,
     id_estudiante INT REFERENCES estudiante(id_estudiante),
@@ -90,6 +99,7 @@ CREATE TABLE datos_salud (
     tiene_carnet_conadis BOOLEAN
 );
 
+DROP TABLE IF EXISTS economia_estudiante CASCADE;
 CREATE TABLE economia_estudiante (
     id_economia SERIAL PRIMARY KEY,
     id_estudiante INT REFERENCES estudiante(id_estudiante),
@@ -97,6 +107,7 @@ CREATE TABLE economia_estudiante (
     total_egresos DECIMAL(10,2)
 );
 
+DROP TABLE IF EXISTS familia CASCADE;
 CREATE TABLE familia (
     id_familia SERIAL PRIMARY KEY,
     id_estudiante INT REFERENCES estudiante(id_estudiante),
@@ -105,6 +116,7 @@ CREATE TABLE familia (
     cabezas_familia TEXT
 );
 
+DROP TABLE IF EXISTS propiedades_extra CASCADE;
 CREATE TABLE propiedades_extra (
     id_propiedades SERIAL PRIMARY KEY,
     id_estudiante INT REFERENCES estudiante(id_estudiante),
@@ -114,6 +126,7 @@ CREATE TABLE propiedades_extra (
     valor_vehiculos DECIMAL(10,2)
 );
 
+DROP TABLE IF EXISTS vivienda CASCADE;
 CREATE TABLE vivienda (
     id_vivienda SERIAL PRIMARY KEY,
     id_estudiante INT REFERENCES estudiante(id_estudiante),
