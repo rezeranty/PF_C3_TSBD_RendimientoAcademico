@@ -252,7 +252,6 @@ def migrar_estudiantes_carrera():
         cliente.close()
 
 
-
 def migrar_estudiante_asignatura():
     cliente = cliente_postgresql()
     cursor = cliente.cursor()
@@ -716,6 +715,3 @@ def migrar_vivienda():
     finally:
         cursor.close()
         cliente.close()
-
-
-migrar_estudiantes_carrera()
