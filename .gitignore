@@ -1,0 +1,5 @@
+app_modulos/data
+app_modulos/.env
+
+_pycache_/
+**/_pycache_/
