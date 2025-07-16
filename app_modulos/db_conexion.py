@@ -6,7 +6,7 @@ import os
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 load_dotenv(os.path.join(BASE_DIR, ".env"))
 
-url_local = os.getenv("DB_POSTGRESQL_NUBE_URL")
+url_nube_db = os.getenv("DB_POSTGRESQL_NUBE_URL")
 
 host_local = os.getenv("DB_POSTGRESQL_LOCAL_HOST")
 db_local = os.getenv("DB_POSTGRESQL_LOCAL_DB")
@@ -17,7 +17,7 @@ port_local = os.getenv("DB_POSTGRESQL_LOCAL_PORT")
 
 def cliente_postgresql(host=None):
     if host and host == 'nube':
-        return psycopg2.connect(url_local)
+        return psycopg2.connect(url_nube_db)
     else:
         return psycopg2.connect(
             host=host_local,         
