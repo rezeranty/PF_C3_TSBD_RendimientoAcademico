@@ -35,47 +35,29 @@ def pagina_estadisticas():
 
 
 def agregar_graficas_estadisticas():
-    
 
     # FILA N°1: ----------------------------------------------------------------------------------------------
-    f1_col1, f1_col2, f1_col3, = st.columns([1, 2, 5])
+    f1_c1, f1_c2, f1_c3, f1_c4 = st.columns([1, 2, 4, 2])
 
-    info_carreras = []
-    carrera_seleccionada, periodo_seleccionado = "", ""
-
-    st.markdown("""
-        <style>
-        .stSelectbox label {
-            color: #000000 !important;
-            font-weight: bold;
-        }
-        </style>
-    """, unsafe_allow_html=True)
-    
-    with f1_col1:
+    with f1_c1:
         st.markdown("""
-                    <p style='color: #000000; font-size: 18px; margin-bottom: 20px;'>FILTROS</p>
+        <div style="font-size:20px; color:#000080; font-weight:bold;">
+            FILTROS
+        </div>
         """, unsafe_allow_html=True)
 
-    with f1_col2:
+    with f1_c2:
         periodos_academicos = [i[0] for i in obtener_periodos_academicos()]
-        periodos_academicos.insert(0, 'Todos')
-        periodo_seleccionado = st.selectbox(label="Periodo Académico:", options=periodos_academicos)
+        periodos_academicos.insert(0, "TODOS")
+        filtro_periodo = st.selectbox(label="Periodo Académico:", options=periodos_academicos)
 
-    with f1_col3:
-        info_carreras = obtener_carreras() if periodo_seleccionado == 'Todos' else obtener_carreras(periodo_academico=periodo_seleccionado)
-        info_carreras = {f"{i[1]} | {i[2]}": i[0] for i in info_carreras}
-        nombres_carreras = list(info_carreras.keys())
-        nombres_carreras.insert(0, 'Todas')
-        carrera_seleccionada = st.selectbox(label="Carrera:" ,options=nombres_carreras)
-    
-    # FILA N°2: ----------------------------------------------------------------------------------------------
-    st.markdown(f"""
-                    <p style='color: #000000; font-size: 18px; margin-bottom: 20px;'>GENERAL: 📆 Periodo Académico: {periodo_seleccionado} 🎓 Carrera: {carrera_seleccionada}</p>
-        """, unsafe_allow_html=True)
-    
-    id_carrera = info_carreras.get(carrera_seleccionada) if carrera_seleccionada != 'Todas' else None
-    periodo = periodo_seleccionado if periodo_seleccionado != 'Todos' else None
-    st.markdown(f"""
-                    <p style='color: #000000; font-size: 15px; margin-bottom: 20px;'>Total estudiantes activos: {obtener_total_estudiantes_activos(id_carrera=id_carrera, periodo=periodo)}</p>
-        """, unsafe_allow_html=True)
+    with f1_c3:
+        carreras_ids = obtener_carreras()
+        carreras_ids = {f"{i[1]} - {i[2]}": i[0] for i in carreras_ids}
+        carreras = list(carreras_ids.keys())
+        carreras.insert(0, "TODAS")
+        filtro_carrera = st.selectbox(label="Carrera:", options=carreras)
+
+    with f1_c4:
+        btn_buscar = st.button("Estadísticas")
+
