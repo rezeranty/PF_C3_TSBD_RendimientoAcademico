@@ -1,6 +1,6 @@
 import streamlit as st
 
-from app_modulos.db_postgres_consultas import obtener_carreras, obtener_periodos_academicos, obtener_total_estudiantes_activos
+from app_modulos.db_postgres_consultas import obtener_carreras, obtener_periodos_academicos
 
 
 def pagina_estadisticas():
