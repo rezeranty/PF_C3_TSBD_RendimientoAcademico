@@ -1,7 +1,10 @@
 import streamlit as st
 
-from app_modulos.db_postgres_consultas import obtener_carreras, obtener_periodos_academicos, total_estudiantes
 import app_modulos.graficas_estadisticas as ge
+
+from app_modulos.db_postgres_consultas import obtener_carreras, obtener_periodos_academicos, total_estudiantes
+from app_modulos.vista_utils import cargar_con_loader
+
 
 
 def pagina_estadisticas():
@@ -32,10 +35,11 @@ def pagina_estadisticas():
     
     st.markdown("<div class='section-title'>Estadísticas Académicas</div>", unsafe_allow_html=True)
     
-    agregar_graficas_estadisticas()
+    filtro_carrera, filtro_periodo, carreras_ids, btn_buscar = agregar_filtros()
+    agregar_graficas_estadisticas(filtro_carrera, filtro_periodo, carreras_ids, btn_buscar)
 
 
-def agregar_graficas_estadisticas():
+def agregar_filtros():
 
     # FILA N°1: ----------------------------------------------------------------------------------------------
     f1_c1, f1_c2, f1_c3, f1_c4 = st.columns([1, 2, 4, 2])
@@ -61,6 +65,11 @@ def agregar_graficas_estadisticas():
 
     with f1_c4:
         btn_buscar = st.button("Estadísticas")
+    
+    return filtro_carrera, filtro_periodo, carreras_ids, btn_buscar
+
+@cargar_con_loader(min_duracion=0.5)
+def agregar_graficas_estadisticas(filtro_carrera, filtro_periodo, carreras_ids, btn_buscar ):
 
     if btn_buscar:
 
@@ -88,7 +97,7 @@ def agregar_graficas_estadisticas():
 
             with f2_c2:
                 st.markdown(f"""
-                <div style="font-size:16px; color:#000080; font-weight:bold;">
+                <div style="font-size:16px; color:#000080; font-weight:bold; margin-bottom:25px;">
                     Carrera:
                     <div style="font-size:16px; color:#000000;"> {filtro_carrera}</div>
                 </div>
@@ -96,7 +105,7 @@ def agregar_graficas_estadisticas():
 
             with f2_c3:
                 st.markdown(f"""
-                <div style="font-size:16px; color:#000080; font-weight:bold;">
+                <div style="font-size:16px; color:#000080; font-weight:bold; margin-bottom:25px;">
                     Estudiantes Activos:
                     <div style="font-size:16px; color:#000000;"> {total_estudiantes_activos}</div>
                 </div>

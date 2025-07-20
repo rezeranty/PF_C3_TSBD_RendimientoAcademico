@@ -1,13 +1,17 @@
 import streamlit as st
 from PIL import Image
 
+from app_modulos.vista_utils import cargar_con_loader
+
+
+@cargar_con_loader(min_duracion=0.3)
 def pagina_inicio():
-    # Logo del instituto arriba de todo
+    
     try:
         logo = Image.open("app_modulos/img/logo_tec.png")
 
-        # Centrar el logo usando columnas y controlando el tamaño
-        col1, col2, col3 = st.columns([1, 2, 1])  # Proporciones: izq, centro, der
+        
+        col1, col2, col3 = st.columns([1, 2, 1])
         with col2:
             st.image(logo, use_container_width=300)
     except FileNotFoundError:
@@ -108,17 +112,14 @@ def pagina_inicio():
     </style>
     """, unsafe_allow_html=True)
 
-    # Título 
     st.markdown("<div class='section-title'>Tecnología Superior en Big Data</div>", unsafe_allow_html=True)
 
-    # Título del proyecto
     st.markdown("""
     <div class='project-title'>
         ANÁLISIS Y PREDICCIÓN DEL RENDIMIENTO ACADÉMICO DE ESTUDIANTES DE LAS CARRERAS DEL INSTITUTO SUPERIOR TECNOLÓGICO DEL AZUAY DESDE EL PERIODO ACADÉMICO 2023-1P HASTA 2024-2P
     </div>
     """, unsafe_allow_html=True)
 
-    # Botones horizontales
     st.markdown("""
     <div class='button-container'>
         <a href='https://github.com/rezeranty/PF_C3_TSBD_RendimientoAcademico' target='_blank' class='custom-button'>
@@ -136,9 +137,8 @@ def pagina_inicio():
     </div>
     """, unsafe_allow_html=True)
 
-    # Cambio de "Equipo de Desarrollo" a "realizado por"
     st.markdown("<div class='team-section-title'>realizado por</div>", unsafe_allow_html=True)
-    # Añadir CSS específico para el equipo
+
     st.markdown("""
     <style>
     .team-grid {
@@ -231,11 +231,9 @@ def pagina_inicio():
     </style>
     """, unsafe_allow_html=True)
     
-    # Grid de miembros del equipo
     with st.container():
         st.markdown("<div class='team-grid'>", unsafe_allow_html=True)
         
-        # Miembro 1: Eduardo Mendieta
         col1, col2, col3, col4 = st.columns(4)
         with col1:
             st.markdown("""
@@ -251,7 +249,6 @@ def pagina_inicio():
             </div>
             """, unsafe_allow_html=True)
         
-        # Miembro 2: Anthony Rosillo
         with col2:
             st.markdown("""
             <div class='team-card floating-animation delay-1'>
@@ -266,7 +263,6 @@ def pagina_inicio():
             </div>
             """, unsafe_allow_html=True)
         
-        # Miembro 3: Justin Escalante
         with col3:
             st.markdown("""
             <div class='team-card floating-animation delay-2'>
@@ -281,7 +277,6 @@ def pagina_inicio():
             </div>
             """, unsafe_allow_html=True)
         
-        # Miembro 4: Evelyn Criollo
         with col4:
             st.markdown("""
             <div class='team-card floating-animation delay-3'>
