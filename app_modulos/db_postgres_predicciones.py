@@ -49,14 +49,12 @@ LEFT JOIN (
 ORDER BY e.ci_pasaporte, ec.periodo_academico;
 """
 
-# Ejecutar la consulta y cargar el resultado en un DataFrame
 cliente= cliente_postgresql()
+
 df = pd.read_sql_query(query, cliente)
 
-# Cerrar conexión
 cliente.close()
 
-# Mostrar los primeros registros
 print(df.head())
 
 
