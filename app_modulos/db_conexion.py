@@ -34,12 +34,8 @@ def cliente_postgresql(host=None):
 
 
 def cliente_mongodb():
-
-    usuario = "antony"
-    password = os.getenv("MONGODB_PASSWORD")
-
-
-    uri = f""
+    
+    uri = mongo_url_nube_db
 
     try:
         cliente = MongoClient(uri, server_api=ServerApi('1'))
