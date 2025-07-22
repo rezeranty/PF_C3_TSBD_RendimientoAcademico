@@ -1,5 +1,5 @@
 SELECT DISTINCT
-    -- todas las columnas que ya tienes
+
     e.id_estudiante,
     e.ci_pasaporte,
     e.nombres,
