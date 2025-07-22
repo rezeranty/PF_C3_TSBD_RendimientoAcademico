@@ -1,10 +1,7 @@
 import streamlit as st
 from PIL import Image
 
-from app_modulos.vista_utils import cargar_con_loader
 
-
-@cargar_con_loader(min_duracion=0.3)
 def pagina_inicio():
     
     try:

@@ -4,12 +4,17 @@ import os
 import psycopg2
 from datetime import datetime
 
-from db_conexion import cliente_postgresql
+
+from pymongo.mongo_client import MongoClient
+from pymongo.server_api import ServerApi
+import pandas as pd
+
+from db_conexion import cliente_postgresql, cliente_mongodb
 
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-
+# ======================================== POSTGRESQL ========================================
 def migrar_carreras():
     cliente = cliente_postgresql()
     cursor = cliente.cursor()
@@ -715,3 +720,28 @@ def migrar_vivienda():
     finally:
         cursor.close()
         cliente.close()
+
+
+# ======================================== MONGODB ========================================
+def migrar_predicciones_mongodb():
+    cliente = cliente_mongodb()
+    if cliente:
+        db = cliente["fichasnotasdb"]
+
+        archivos = {
+            "resultados_modelo1_simple.xlsx": pd.read_excel("/content/resultados_modelo1_simple.xlsx"),
+            "resultados_modelo2_dropout.xlsx": pd.read_excel("/content/resultados_modelo2_dropout.xlsx"),
+            "resultados_modelo3_batchnorm.xlsx": pd.read_excel("/content/resultados_modelo3_batchnorm.xlsx")
+        }
+
+        for nombre_archivo, df in archivos.items():
+            nombre_coleccion = nombre_archivo.replace(".xlsx", "")
+            coleccion = db[nombre_coleccion]
+            
+            datos = df.to_dict(orient='records')
+
+            if datos:
+                coleccion.insert_many(datos)
+                print(f"Insertados {len(datos)} documentos en la colección '{nombre_coleccion}'.")
+            else:
+                print(f"El DataFrame '{nombre_archivo}' está vacío, no se insertó nada.")
