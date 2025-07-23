@@ -12,7 +12,6 @@ def get_image_base64(path):
         return "" 
 
 def pagina_inicio():
-
     try:
         logo = Image.open("app_modulos/img/logo_tec.png")
         col1, col2, col3 = st.columns([1, 2, 1])
@@ -23,7 +22,6 @@ def pagina_inicio():
 
     st.markdown("""
     <style>
-        /* Ajustes globales para la página de Streamlit */
         .main {
             padding-top: 20px;
             padding-bottom: 20px;
@@ -87,36 +85,38 @@ def pagina_inicio():
         .custom-button:hover {
             background: white;
             color: #071739;
-            text-decoration: none;
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(7, 23, 57, 0.3);
         }
         .github-icon { width: 20px; height: 20px; }
         .home-icon { width: 20px; height: 20px; }
 
-        /* Estilos de la tarjeta para que se vea como en la imagen */
+        /* --- TARJETAS CON ANIMACIÓN CONSTANTE --- */
         .team-card {
-            width: 100%; /* Ocupa el 100% del ancho de su columna */
-            max-width: 280px; /* Pero no más de 280px */
+            width: 260px;
+            height: 380px;
             background: rgba(255, 255, 255, 0.95);
             border-radius: 20px;
             padding: 30px;
             text-align: center;
-            transition: all 0.3s ease;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
             cursor: pointer;
             position: relative;
             overflow: hidden;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
             border: 1px solid rgba(7, 23, 57, 0.1);
             opacity: 0;
-            animation: fadeInUp 0.8s ease forwards;
-            margin-left: auto; /* Centra la tarjeta dentro de la columna */
-            margin-right: auto; /* Centra la tarjeta dentro de la columna */
+            animation: fadeInUp 0.8s ease forwards, floatCard 3s ease-in-out infinite;
+            margin-left: auto;
+            margin-right: auto;
         }
-        .team-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        /* Animación flotante constante */
+        @keyframes floatCard {
+            0%   { transform: translateY(0px); }
+            50%  { transform: translateY(-8px); }
+            100% { transform: translateY(0px); }
         }
+
         .profile-image {
             width: 120px;
             height: 120px;
@@ -127,6 +127,9 @@ def pagina_inicio():
             transition: all 0.3s ease;
             position: relative;
             background-color: #8fb3ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         .profile-image img {
             width: 100%;
@@ -135,10 +138,6 @@ def pagina_inicio():
             border-radius: 50%;
             box-shadow: 0 4px 12px rgba(0,0,0,0.2);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .profile-image img:hover {
-            transform: scale(1.05);
-            box-shadow: 0 6px 16px rgba(0,0,0,0.3);
         }
         .member-name {
             font-size: 1.4rem;
@@ -164,7 +163,7 @@ def pagina_inicio():
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
 
-        /* Animación fade-in + slide */
+        /* Animación de entrada */
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(40px); }
             to   { opacity: 1; transform: translateY(0); }
