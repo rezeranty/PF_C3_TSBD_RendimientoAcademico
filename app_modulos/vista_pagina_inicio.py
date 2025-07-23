@@ -275,7 +275,3 @@ def pagina_inicio():
                 </a>
             </div>
             """, unsafe_allow_html=True)
-
-# Llama a la función principal para ejecutar la página
-if __name__ == "__main__":
-    pagina_inicio()

@@ -1,4 +1,4 @@
-app_modulos/data
+app_modulos/data/data_fuente
 app_modulos/.env
 
 **/__pycache__/

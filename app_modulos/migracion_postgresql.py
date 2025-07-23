@@ -4,12 +4,17 @@ import os
 import psycopg2
 from datetime import datetime
 
+
+from pymongo.mongo_client import MongoClient
+from pymongo.server_api import ServerApi
+import pandas as pd
+
 from db_conexion import cliente_postgresql
 
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-
+# ======================================== POSTGRESQL ========================================
 def migrar_carreras():
     cliente = cliente_postgresql()
     cursor = cliente.cursor()
