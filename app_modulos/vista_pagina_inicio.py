@@ -2,11 +2,6 @@ import streamlit as st
 from PIL import Image
 import base64
 
-# --- Configuración de la página de Streamlit ---
-# Esta línea es crucial para que las tarjetas tengan espacio para posicionarse horizontalmente
-st.set_page_config(layout="wide")
-
-# ---- Función para convertir imágenes a Base64 ----
 def get_image_base64(path):
     """Convierte una imagen local a una cadena Base64 para incrustarla en HTML."""
     try:
@@ -14,20 +9,18 @@ def get_image_base64(path):
             return base64.b64encode(f.read()).decode()
     except FileNotFoundError:
         st.error(f"Error: La imagen no se encontró en la ruta: {path}")
-        return "" # Retorna una cadena vacía en caso de error
+        return "" 
 
 def pagina_inicio():
-    # ---- Logo del instituto ----
+
     try:
         logo = Image.open("app_modulos/img/logo_tec.png")
-        # Usamos st.columns para centrar el logo de forma efectiva
         col1, col2, col3 = st.columns([1, 2, 1])
         with col2:
             st.image(logo, use_container_width=True)
     except FileNotFoundError:
         st.error("Logo no encontrado. Verifica que el archivo esté en app_modulos/img/logo_tec.png")
 
-    # ---- CSS ----
     st.markdown("""
     <style>
         /* Ajustes globales para la página de Streamlit */
@@ -183,7 +176,6 @@ def pagina_inicio():
     </style>
     """, unsafe_allow_html=True)
 
-    # ---- Títulos ----
     st.markdown("<div class='section-title'>Tecnología Superior en Big Data</div>", unsafe_allow_html=True)
     st.markdown("""
     <div class='project-title'>
@@ -191,7 +183,6 @@ def pagina_inicio():
     </div>
     """, unsafe_allow_html=True)
 
-    # ---- Botones ----
     st.markdown("""
     <div class='button-container'>
         <a href='https://github.com/rezeranty/PF_C3_TSBD_RendimientoAcademico' target='_blank' class='custom-button'>
@@ -221,16 +212,13 @@ def pagina_inicio():
     </div>
     """, unsafe_allow_html=True)
 
-    # ---- Título equipo ----
     st.markdown("<div class='team-section-title'>REALIZADO POR</div>", unsafe_allow_html=True)
 
-    # ---- Cargar imágenes de perfil (asegúrate de que estas rutas son correctas) ----
     eduardo_img = get_image_base64("app_modulos/img/Eduardo Mendieta.jpg")
     anthony_img = get_image_base64("app_modulos/img/Anthony Rosillo.jpg")
     justin_img = get_image_base64("app_modulos/img/Justin Escalante.jpg")
     evelyn_img = get_image_base64("app_modulos/img/Evelyn Criollo.jpg")
 
-    # ---- Datos de los miembros del equipo ----
     team_members_data = [
         ("Eduardo Mendieta", "edwmn01", eduardo_img, "delay-0"),
         ("Anthony Rosillo", "rezeranty", anthony_img, "delay-1"),
@@ -238,15 +226,10 @@ def pagina_inicio():
         ("Evelyn Criollo", "Nidddddddd", evelyn_img, "delay-3")
     ]
 
-    # ---- Tarjetas del equipo usando st.columns para el layout horizontal ----
-    # Creamos 4 columnas. Puedes ajustar los anchos relativos si lo necesitas,
-    # por ejemplo, [1, 1, 1, 1] para que todas tengan el mismo ancho.
-    # Para centrar un conjunto de columnas en una página ancha, puedes añadir columnas vacías a los lados.
-    # Ejemplo: col_empty_left, col1, col2, col3, col4, col_empty_right = st.columns([0.5, 1, 1, 1, 1, 0.5])
-    cols_display = st.columns(len(team_members_data)) # Crea una columna para cada miembro
+    cols_display = st.columns(len(team_members_data)) 
 
     for i, (name, github, img, delay) in enumerate(team_members_data):
-        with cols_display[i]: # Coloca el siguiente contenido en la columna actual
+        with cols_display[i]:
             st.markdown(f"""
             <div class='team-card {delay}'>
                 <div class='profile-image'>

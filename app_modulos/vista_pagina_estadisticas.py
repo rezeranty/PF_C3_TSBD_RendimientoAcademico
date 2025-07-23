@@ -156,3 +156,11 @@ def agregar_graficas_estadisticas(filtro_carrera, filtro_periodo, carreras_ids):
         st.plotly_chart(ge.grafica_porcentaje_asistencia_promedio(carrera_id, periodo), use_container_width=True) 
     with f7_c3:
         st.plotly_chart(ge.grafica_frecuencia_numero_matricula(carrera_id, periodo), use_container_width=True)
+    
+
+
+    st.markdown("""
+        <div style="font-size:20px; color:#000080; font-weight:bold; margin:25px 0;">
+            ANÁLISIS DE FACTORES QUE AFECTAN AL RENDIMIENTO ACADÉMICO
+        </div>
+    """, unsafe_allow_html=True)
