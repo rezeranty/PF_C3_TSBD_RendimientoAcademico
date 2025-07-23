@@ -1,34 +1,58 @@
 import streamlit as st
 from PIL import Image
+import base64
+
+# --- Configuración de la página de Streamlit ---
+# Esta línea es crucial para que las tarjetas tengan espacio para posicionarse horizontalmente
+st.set_page_config(layout="wide")
+
+# ---- Función para convertir imágenes a Base64 ----
+def get_image_base64(path):
+    """Convierte una imagen local a una cadena Base64 para incrustarla en HTML."""
+    try:
+        with open(path, "rb") as f:
+            return base64.b64encode(f.read()).decode()
+    except FileNotFoundError:
+        st.error(f"Error: La imagen no se encontró en la ruta: {path}")
+        return "" # Retorna una cadena vacía en caso de error
 
 def pagina_inicio():
-    # Logo del instituto arriba de todo
+    # ---- Logo del instituto ----
     try:
         logo = Image.open("app_modulos/img/logo_tec.png")
-
-        # Centrar el logo usando columnas y controlando el tamaño
-        col1, col2, col3 = st.columns([1, 2, 1])  # Proporciones: izq, centro, der
+        # Usamos st.columns para centrar el logo de forma efectiva
+        col1, col2, col3 = st.columns([1, 2, 1])
         with col2:
-            st.image(logo, use_container_width=300)
+            st.image(logo, use_container_width=True)
     except FileNotFoundError:
         st.error("Logo no encontrado. Verifica que el archivo esté en app_modulos/img/logo_tec.png")
 
+    # ---- CSS ----
     st.markdown("""
     <style>
+        /* Ajustes globales para la página de Streamlit */
+        .main {
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
+        .block-container {
+            padding-top: 0rem;
+            padding-bottom: 0rem;
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+
         .section-title {
             font-size: 42px;
-            color: 
-#071739;
+            color: #071739;
             margin-bottom: 10px;
             text-align: center;
             font-weight: 700;
             animation: slideInLeft 0.8s ease-in-out;
         }
-
         .project-title {
             font-size: 24px;
-            color: 
-#071739;
+            color: #071739;
             margin-bottom: 40px;
             text-align: center;
             font-weight: 600;
@@ -38,25 +62,21 @@ def pagina_inicio():
             border-radius: 12px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
-
         .team-section-title {
             font-size: 36px;
-            color: 
-#071739;
+            color: #071739;
             margin: 40px 0 20px 0;
             text-align: center;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 2px;
         }
-
         .button-container {
             display: flex;
             justify-content: center;
             gap: 20px;
             margin: 30px 0;
         }
-
         .custom-button {
             display: inline-flex;
             align-items: center;
@@ -71,7 +91,6 @@ def pagina_inicio():
             transition: all 0.3s ease;
             border: 2px solid #071739;
         }
-
         .custom-button:hover {
             background: white;
             color: #071739;
@@ -79,51 +98,117 @@ def pagina_inicio():
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(7, 23, 57, 0.3);
         }
+        .github-icon { width: 20px; height: 20px; }
+        .home-icon { width: 20px; height: 20px; }
 
-        .github-icon {
-            width: 20px;
-            height: 20px;
+        /* Estilos de la tarjeta para que se vea como en la imagen */
+        .team-card {
+            width: 100%; /* Ocupa el 100% del ancho de su columna */
+            max-width: 280px; /* Pero no más de 280px */
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            border: 1px solid rgba(7, 23, 57, 0.1);
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards;
+            margin-left: auto; /* Centra la tarjeta dentro de la columna */
+            margin-right: auto; /* Centra la tarjeta dentro de la columna */
+        }
+        .team-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        .profile-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            overflow: hidden;
+            border: 4px solid #667eea;
+            transition: all 0.3s ease;
+            position: relative;
+            background-color: #8fb3ff;
+        }
+        .profile-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .profile-image img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.3);
+        }
+        .member-name {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #071739;
+            margin-bottom: 10px;
+        }
+        .github-info {
+            background: linear-gradient(135deg, #333 0%, #555 100%);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 25px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            margin: 10px 0;
+        }
+        .github-info:hover {
+            transform: scale(1.05);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
 
-        .home-icon {
-            width: 20px;
-            height: 20px;
+        /* Animación fade-in + slide */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to   { opacity: 1; transform: translateY(0); }
         }
-
-        @keyframes slideInLeft {
-            from {
-                opacity: 0;
-                transform: translateX(-50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        .delay-0 { animation-delay: 0s; }
+        .delay-1 { animation-delay: 0.3s; }
+        .delay-2 { animation-delay: 0.6s; }
+        .delay-3 { animation-delay: 0.9s; }
     </style>
     """, unsafe_allow_html=True)
 
-    # Título 
+    # ---- Títulos ----
     st.markdown("<div class='section-title'>Tecnología Superior en Big Data</div>", unsafe_allow_html=True)
-
-    # Título del proyecto
     st.markdown("""
     <div class='project-title'>
         ANÁLISIS Y PREDICCIÓN DEL RENDIMIENTO ACADÉMICO DE ESTUDIANTES DE LAS CARRERAS DEL INSTITUTO SUPERIOR TECNOLÓGICO DEL AZUAY DESDE EL PERIODO ACADÉMICO 2023-1P HASTA 2024-2P
     </div>
     """, unsafe_allow_html=True)
 
-    # Botones horizontales
+    # ---- Botones ----
     st.markdown("""
     <div class='button-container'>
         <a href='https://github.com/rezeranty/PF_C3_TSBD_RendimientoAcademico' target='_blank' class='custom-button'>
             <svg class='github-icon' viewBox='0 0 24 24' fill='currentColor'>
-                <path d='M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z'/>
+                <path d='M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 
+                8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235
+                -3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695
+                -.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23
+                1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605
+                -2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 
+                1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 
+                3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405
+                c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18
+                .765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 
+                5.925.435.375.81 1.095.81 2.22 0 1.605-.015 
+                2.895-.015 3.3 0 .315.225.69.825.57A12.02 
+                12.02 0 0024 12c0-6.63-5.37-12-12-12z'/>
             </svg>
             Repositorio
         </a>
@@ -136,164 +221,61 @@ def pagina_inicio():
     </div>
     """, unsafe_allow_html=True)
 
-    # Cambio de "Equipo de Desarrollo" a "realizado por"
-    st.markdown("<div class='team-section-title'>realizado por</div>", unsafe_allow_html=True)
-    # Añadir CSS específico para el equipo
-    st.markdown("""
-    <style>
-    .team-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 30px;
-        margin-top: 20px;
-    }
+    # ---- Título equipo ----
+    st.markdown("<div class='team-section-title'>REALIZADO POR</div>", unsafe_allow_html=True)
 
-    .team-card {
-        background: rgba(255, 255, 255, 0.95);
-        border-radius: 20px;
-        padding: 30px;
-        text-align: center;
-        transition: all 0.3s ease;
-        cursor: pointer;
-        position: relative;
-        overflow: hidden;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        border: 1px solid rgba(7, 23, 57, 0.1);
-    }
+    # ---- Cargar imágenes de perfil (asegúrate de que estas rutas son correctas) ----
+    eduardo_img = get_image_base64("app_modulos/img/Eduardo Mendieta.jpg")
+    anthony_img = get_image_base64("app_modulos/img/Anthony Rosillo.jpg")
+    justin_img = get_image_base64("app_modulos/img/Justin Escalante.jpg")
+    evelyn_img = get_image_base64("app_modulos/img/Evelyn Criollo.jpg")
 
-    .team-card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-    }
+    # ---- Datos de los miembros del equipo ----
+    team_members_data = [
+        ("Eduardo Mendieta", "edwmn01", eduardo_img, "delay-0"),
+        ("Anthony Rosillo", "rezeranty", anthony_img, "delay-1"),
+        ("Justin Escalante", "KYOUKO-002", justin_img, "delay-2"),
+        ("Evelyn Criollo", "Nidddddddd", evelyn_img, "delay-3")
+    ]
 
-    .profile-image {
-        width: 120px;
-        height: 120px;
-        border-radius: 50%;
-        margin: 0 auto 20px;
-        overflow: hidden;
-        border: 4px solid #667eea;
-        transition: all 0.3s ease;
-        position: relative;
-        background-color: #8fb3ff;
-    }
+    # ---- Tarjetas del equipo usando st.columns para el layout horizontal ----
+    # Creamos 4 columnas. Puedes ajustar los anchos relativos si lo necesitas,
+    # por ejemplo, [1, 1, 1, 1] para que todas tengan el mismo ancho.
+    # Para centrar un conjunto de columnas en una página ancha, puedes añadir columnas vacías a los lados.
+    # Ejemplo: col_empty_left, col1, col2, col3, col4, col_empty_right = st.columns([0.5, 1, 1, 1, 1, 0.5])
+    cols_display = st.columns(len(team_members_data)) # Crea una columna para cada miembro
 
-    .team-card:hover .profile-image {
-        transform: scale(1.1);
-        border-color: #764ba2;
-    }
-
-    .member-name {
-        font-size: 1.4rem;
-        font-weight: bold;
-        color: #071739;
-        margin-bottom: 10px;
-    }
-
-    .github-info {
-        background: linear-gradient(135deg, #333 0%, #555 100%);
-        color: white;
-        padding: 12px 20px;
-        border-radius: 25px;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        font-size: 0.9rem;
-        transition: all 0.3s ease;
-        text-decoration: none;
-        margin: 10px 0;
-    }
-
-    .github-info:hover {
-        transform: scale(1.05);
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    }
-
-    .github-icon {
-        width: 20px;
-        height: 20px;
-    }
-    
-    .floating-animation {
-        animation: float 3s ease-in-out infinite;
-    }
-    
-    @keyframes float {
-        0%, 100% { transform: translateY(0px); }
-        50% { transform: translateY(-10px); }
-    }
-    
-    /* Animaciones para cada tarjeta */
-    .delay-0 { animation-delay: 0s; }
-    .delay-1 { animation-delay: 0.5s; }
-    .delay-2 { animation-delay: 1s; }
-    .delay-3 { animation-delay: 1.5s; }
-    </style>
-    """, unsafe_allow_html=True)
-    
-    # Grid de miembros del equipo
-    with st.container():
-        st.markdown("<div class='team-grid'>", unsafe_allow_html=True)
-        
-        # Miembro 1: Eduardo Mendieta
-        col1, col2, col3, col4 = st.columns(4)
-        with col1:
-            st.markdown("""
-            <div class='team-card floating-animation delay-0'>
-                <div class='profile-image'></div>
-                <h3 class='member-name'>Eduardo Mendieta</h3>
-                <a href='https://github.com/edwmn01' class='github-info' target='_blank'>
+    for i, (name, github, img, delay) in enumerate(team_members_data):
+        with cols_display[i]: # Coloca el siguiente contenido en la columna actual
+            st.markdown(f"""
+            <div class='team-card {delay}'>
+                <div class='profile-image'>
+                    <img src='data:image/jpg;base64,{img}' 
+                         alt='{name}'
+                         style='width:100%; height:100%; object-fit:cover; border-radius:50%;'/>
+                </div>
+                <h3 class='member-name'>{name}</h3>
+                <a href='https://github.com/{github}' class='github-info' target='_blank'>
                     <svg class='github-icon' viewBox='0 0 24 24' fill='currentColor'>
-                        <path d='M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z'/>
+                        <path d='M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 
+                        8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235
+                        -3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695
+                        -.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23
+                        1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605
+                        -2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 
+                        1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 
+                        3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405
+                        c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18
+                        .765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 
+                        5.925.435.375.81 1.095.81 2.22 0 1.605-.015 
+                        2.895-.015 3.3 0 .315.225.69.825.57A12.02 
+                        12.02 0 0024 12c0-6.63-5.37-12-12-12z'/>
                     </svg>
-                    edwmn01
+                    {github}
                 </a>
             </div>
             """, unsafe_allow_html=True)
-        
-        # Miembro 2: Anthony Rosillo
-        with col2:
-            st.markdown("""
-            <div class='team-card floating-animation delay-1'>
-                <div class='profile-image'></div>
-                <h3 class='member-name'>Anthony Rosillo</h3>
-                <a href='https://github.com/rezeranty' class='github-info' target='_blank'>
-                    <svg class='github-icon' viewBox='0 0 24 24' fill='currentColor'>
-                        <path d='M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z'/>
-                    </svg>
-                    rezeranty
-                </a>
-            </div>
-            """, unsafe_allow_html=True)
-        
-        # Miembro 3: Justin Escalante
-        with col3:
-            st.markdown("""
-            <div class='team-card floating-animation delay-2'>
-                <div class='profile-image'></div>
-                <h3 class='member-name'>Justin Escalante</h3>
-                <a href='https://github.com/KYOUKO-002' class='github-info' target='_blank'>
-                    <svg class='github-icon' viewBox='0 0 24 24' fill='currentColor'>
-                        <path d='M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z'/>
-                    </svg>
-                    KYOUKO-002
-                </a>
-            </div>
-            """, unsafe_allow_html=True)
-        
-        # Miembro 4: Evelyn Criollo
-        with col4:
-            st.markdown("""
-            <div class='team-card floating-animation delay-3'>
-                <div class='profile-image'></div>
-                <h3 class='member-name'>Evelyn Criollo</h3>
-                <a href='https://github.com/Nidddddddd' class='github-info' target='_blank'>
-                    <svg class='github-icon' viewBox='0 0 24 24' fill='currentColor'>
-                        <path d='M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z'/>
-                    </svg>
-                    Nidddddddd
-                </a>
-            </div>
-            """, unsafe_allow_html=True)
-        
-        st.markdown("</div>", unsafe_allow_html=True)
+
+# Llama a la función principal para ejecutar la página
+if __name__ == "__main__":
+    pagina_inicio()
