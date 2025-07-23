@@ -81,5 +81,8 @@ def get_opcion_menu_principal():
         
         if st.button("📝 BLOG", key="blog", use_container_width=True):
             st.session_state.current_page = "Blog"
+
+        if st.button("CARGAR DATOS", key="carga", use_container_width=True):
+            st.session_state.current_page ="Carga Datos"
         
     return st.session_state.current_page

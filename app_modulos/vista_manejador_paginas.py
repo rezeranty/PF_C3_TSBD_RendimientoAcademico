@@ -2,6 +2,7 @@ from app_modulos.vista_pagina_inicio import pagina_inicio
 from app_modulos.vista_pagina_estadisticas import pagina_estadisticas
 from app_modulos.vista_pagina_predicciones import pagina_predicciones
 from app_modulos.vista_pagina_blog import pagina_blog
+from app_modulos.vista_pagina_carga_datos import pagina_carga_datos
 
 
 def establecer_pagina(pagina='Inicio'):
@@ -17,5 +18,10 @@ def establecer_pagina(pagina='Inicio'):
     elif pagina == "Blog":
         pagina_blog()
 
+    elif pagina == "Carga Datos":
+        pagina_carga_datos()
+    
     else:
         pagina_inicio()
+    
+

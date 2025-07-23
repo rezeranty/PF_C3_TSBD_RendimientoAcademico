@@ -1,4 +1,6 @@
 from app_modulos.db_conexion import cliente_postgresql
+ 
+from psycopg2.extras import RealDictCursor
 
 def obtener_carreras(periodo_academico=None):
     try:
@@ -699,3 +701,48 @@ def estado_estudiante_frecuencia(id_carrera=None, periodo_academico=None):
     finally:
         cursor.close()
         cliente.close()
+
+
+
+
+def obtener_id_ci_estudiante():
+    cliente = cliente_postgresql()
+    cursor = cliente.cursor(cursor_factory=RealDictCursor)
+    cursor.execute("SELECT id_estudiante, ci_pasaporte FROM estudiante")
+    resultado = cursor.fetchall()
+    cursor.close()
+    cliente.close()
+    return {fila["ci_pasaporte"]: fila["id_estudiante"] for fila in resultado}
+
+
+def obtener_id_codigo_carrera():
+    cliente = cliente_postgresql()
+    cursor = cliente.cursor(cursor_factory=RealDictCursor)
+    cursor.execute("SELECT id_carrera, codigo_carrera FROM carrera")
+    resultado = cursor.fetchall()
+    cursor.close()
+    cliente.close()
+    return {fila["codigo_carrera"]: fila["id_carrera"] for fila in resultado}
+
+
+def obtener_id_nombre_asignaturas():
+    cliente = cliente_postgresql()
+    cursor = cliente.cursor(cursor_factory=RealDictCursor)
+    cursor.execute("SELECT id_asignatura, nombre_asignatura FROM asignatura")
+    resultado = cursor.fetchall()
+    cursor.close()
+    cliente.close()
+    return {fila["nombre_asignatura"]: fila["id_asignatura"] for fila in resultado}
+
+
+def obtener_id_por_columnas_aux_estudiante_carrera():
+    cliente = cliente_postgresql()
+    cursor = cliente.cursor(cursor_factory=RealDictCursor)
+    cursor.execute("SELECT id_estudiante_carrera, id_carrera, id_estudiante, periodo_academico FROM estudiante_carrera")
+    resultado = cursor.fetchall()
+    cursor.close()
+    cliente.close()
+    return {
+        f'{fila["id_carrera"]}-{fila["id_estudiante"]}-{fila["periodo_academico"]}': fila["id_estudiante_carrera"]
+        for fila in resultado
+    }
