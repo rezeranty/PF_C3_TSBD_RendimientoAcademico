@@ -73,7 +73,3 @@ def limpiar_fichas(df_fichas):
     )
 
     return df_fichas
-
-
-limpiar_fichas()
-#limpiar_notas()    
