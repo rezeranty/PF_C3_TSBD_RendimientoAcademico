@@ -194,7 +194,7 @@ def cargar_nuevos_datos_fichas():
                 if btn_subir_info_fichas:
                     try:
                         df_fichas = limpiar_fichas(df_fichas)
-                        migrar_info_a_tablas_fichas(df_fichas)
+                        #migrar_info_a_tablas_fichas(df_fichas)
                     except Exception as e:
                         st.warning("❌ Existen errores en el contenido de los archivos.")
                         print(str(e))
