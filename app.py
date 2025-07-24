@@ -18,7 +18,8 @@ def main():
     st.markdown("<style> header {visibility: hidden;}</style>", unsafe_allow_html=True)
 
     pagina = get_pagina_seleccionada()
-    print(pagina)
+    
+    establecer_pagina(pagina)
 
 
 def get_pagina_seleccionada():
