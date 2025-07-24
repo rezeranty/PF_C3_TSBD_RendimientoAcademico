@@ -92,7 +92,7 @@ def get_pagina_seleccionada():
         if st.button("🏠 INICIO", key="home", use_container_width=True):
             st.session_state.current_page = "Inicio"
         
-        if st.button("CARGAR DATOS", key="carga", use_container_width=True):
+        if st.button("☁️ CARGAR DATOS", key="carga", use_container_width=True):
             st.session_state.current_page = "Carga Datos"
         
         if st.button("📊 ESTADÍSTICAS", key="stats", use_container_width=True):

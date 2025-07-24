@@ -13,7 +13,7 @@ CREATE DATABASE fichasnotasdb
 DROP TABLE IF EXISTS estudiante CASCADE;
 CREATE TABLE estudiante (
     id_estudiante SERIAL PRIMARY KEY,
-    ci_pasaporte character varying(20),
+    ci_pasaporte character varying(20) UNIQUE,
     correo_tec character varying(100),
     nombres character varying(100),
     sexo character varying(11),
@@ -41,6 +41,7 @@ CREATE TABLE contacto_emergencia (
     id_estudiante integer,
     nombre_contacto character varying(100),
     telefono_contacto character varying(20),
+    periodo_academico character varying(20),
     CONSTRAINT fk1_contacto_emergencia FOREIGN KEY (id_estudiante)
         REFERENCES estudiante(id_estudiante)
         ON DELETE CASCADE
@@ -59,6 +60,7 @@ CREATE TABLE datos_salud (
     vacuna_covid character varying(70),
     antecedentes_patologicos_fam text,
     tiene_carnet_conadis boolean,
+    periodo_academico character varying(20),
     CONSTRAINT fk1_datos_salud FOREIGN KEY (id_estudiante)
         REFERENCES estudiante(id_estudiante)
         ON DELETE CASCADE
@@ -73,6 +75,7 @@ CREATE TABLE propiedades_extra (
     valor_propiedades numeric(10,2),
     num_vehiculos integer,
     valor_vehiculos numeric(10,2),
+    periodo_academico character varying(20),
     CONSTRAINT fk1_propiedades_extra FOREIGN KEY (id_estudiante)
         REFERENCES estudiante(id_estudiante)
         ON DELETE CASCADE
@@ -86,6 +89,7 @@ CREATE TABLE familia (
     integrantes_familia text,
     integrantes_aporte_economico text,
     cabezas_familia text,
+    periodo_academico character varying(20),
     CONSTRAINT fk1_familia FOREIGN KEY (id_estudiante)
         REFERENCES estudiante(id_estudiante)
         ON DELETE CASCADE
@@ -95,7 +99,7 @@ CREATE TABLE familia (
 DROP TABLE IF EXISTS colegio_graduacion CASCADE;
 CREATE TABLE colegio_graduacion (
     id_colegio SERIAL PRIMARY KEY,
-    id_estudiante integer,
+    id_estudiante integer UNIQUE,
     nombre_colegio character varying(100),
     tipo_colegio character varying(50),
     titulo_bachiller character varying(50),
@@ -113,6 +117,7 @@ CREATE TABLE vivienda (
     tipo_vivienda character varying(100),
     condicion_vivienda character varying(100),
     servicios_vivienda text,
+    periodo_academico character varying(20),
     CONSTRAINT fk1_vivienda FOREIGN KEY (id_estudiante)
         REFERENCES estudiante(id_estudiante)
         ON DELETE CASCADE
@@ -125,6 +130,7 @@ CREATE TABLE economia_estudiante (
     id_estudiante integer,
     total_ingresos numeric(10,2),
     total_egresos numeric(10,2),
+    periodo_academico character varying(20),
     CONSTRAINT fk1_economia_estudiante FOREIGN KEY (id_estudiante)
         REFERENCES estudiante(id_estudiante)
         ON DELETE CASCADE
