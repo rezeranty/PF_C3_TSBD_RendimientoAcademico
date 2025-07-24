@@ -182,7 +182,7 @@ def cargar_nuevos_datos_fichas():
     )
     if uploaded_file_fichas is not None:
         try:
-            df_fichas = pd.read_excel(uploaded_file_fichas)
+            df_fichas = pd.read_excel(uploaded_file_fichas, encoding="latin1")
             st.success("Archivo cargado correctamente:")
             st.dataframe(df_fichas)
 
