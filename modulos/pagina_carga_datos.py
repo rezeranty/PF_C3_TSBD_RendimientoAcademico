@@ -162,7 +162,7 @@ def cargar_nuevos_datos_fichas():
     nombres_columnas_fichas = [
         'ci_pasaporte', 'correo_tec', 'PrimerNombre', 'SegunNombre', 'PrimerApellido',
         'SegunApellido', 'sexo', 'genero', 'estado_civil', 'num_hijos', 'etnia',
-        'fecha_nacimiento', 'tipo_parroqui', 'ciudad', 'provincia', 'pais',
+        'fecha_nacimiento', 'tipo_parroquia', 'ciudad', 'provincia', 'pais',
         'celular', 'tiene_beca', 'estudio_otra_carrera', 'ocupacion_estudiante',
         'persona_cubre_gastos', 'recibe_ayuda', 'nombre_carrera', 'periodo_academico',
         'nombre_colegio', 'tipo_colegio', 'titulo_bachiller', 'anio_graduacion',

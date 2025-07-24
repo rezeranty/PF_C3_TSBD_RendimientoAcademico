@@ -26,7 +26,11 @@ def limpiar_notas(df_notas):
 
 def limpiar_fichas(df_fichas):
     df_fichas["ci_pasaporte"] = df_fichas["ci_pasaporte"].astype(str)
+    df_fichas["telefono_contacto"] = df_fichas["telefono_contacto"].astype(str)
+
     df_fichas["ci_pasaporte"] = df_fichas["ci_pasaporte"].str.zfill(10)
+    df_fichas["telefono_contacto"] = df_fichas["telefono_contacto"].str.zfill(10)
+
     df_fichas = df_fichas.astype(str)
     
     for col in df_fichas.columns:

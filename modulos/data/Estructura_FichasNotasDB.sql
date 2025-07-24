@@ -22,7 +22,7 @@ CREATE TABLE estudiante (
     num_hijos integer,
     etnia character varying(50),
     fecha_nacimiento date,
-    tipo_parroqui character varying(50),
+    tipo_parroquia character varying(50),
     ciudad character varying(50),
     provincia character varying(50),
     pais character varying(50),
@@ -140,7 +140,7 @@ CREATE TABLE economia_estudiante (
 DROP TABLE IF EXISTS carrera CASCADE;
 CREATE TABLE carrera (
     id_carrera SERIAL PRIMARY KEY,
-    codigo_carrera character varying(50),
+    codigo_carrera  UNIQUE character varying(50),
     nombre_carrera character varying(200)
 );
 
