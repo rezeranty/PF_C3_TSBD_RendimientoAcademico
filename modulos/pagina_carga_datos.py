@@ -3,6 +3,7 @@ import pandas as pd
 import os
 
 from modulos.limpieza_datos import limpiar_fichas, limpiar_notas
+from modulos.migracion_datos import migrar_info_a_tablas_fichas, migrar_info_a_tablas_notas
 
 
 '''def pagina_carga_datos():
@@ -172,7 +173,7 @@ def cargar_nuevos_datos_fichas():
         'nombre_discapacidad', 'nombre_enfermedades', 'vacuna_covid',
         'antecedentes_patologicos_fam', 'integrantes_familia',
         'integrantes_aporte_economico', 'cabezas_familia', 'tipo_vivienda',
-        'condicion_vivienda', 'servicios_vivienda', 'tiene_carnet_conadis'
+        'condicion_vivienda', 'servicios_vivienda', 'tiene_carnet_conadis', 'codigo_carrera'
     ]
     
     uploaded_file_fichas = st.file_uploader(
@@ -193,7 +194,7 @@ def cargar_nuevos_datos_fichas():
                 if btn_subir_info_fichas:
                     try:
                         df_fichas = limpiar_fichas(df_fichas)
-                        migrar_datos(df_fichas=df_fichas)
+                        migrar_info_a_tablas_fichas(df_fichas)
                     except Exception as e:
                         st.warning("❌ Existen errores en el contenido de los archivos.")
                         print(str(e))
@@ -206,7 +207,7 @@ def cargar_nuevos_datos_fichas():
 
 def cargar_nuevos_datos_notas():
     nombres_columnas_notas = [
-        'periodo_academico', 'paralelo', 'ci_pasaporte', 'nombres', 'carrera',
+        'periodo_academico', 'paralelo', 'ci_pasaporte', 'nombres', 'codigo_carrera', 'nombre_carrera'
         'ciclo_carrera', 'nombre_asignatura', 'numero_matricula',
         'porcentaje_asistencia', 'nota_final', 'estado_estudiante',
         'estado_matricula', 'tipo_ingreso'
@@ -230,7 +231,7 @@ def cargar_nuevos_datos_notas():
                 if btn_subir_info_notas:
                     try:
                         df_notas = limpiar_notas(df_notas)
-                        migrar_datos(df_notas==df_notas)
+                        #migrar_datos(df_notas==df_notas)
                     except Exception as e:
                         st.warning("❌ Existen errores en el contenido de los archivos.")
                         st.error(str(e))
@@ -238,9 +239,3 @@ def cargar_nuevos_datos_notas():
                 st.warning("❌ Las columnas del archivo no coinciden con las requeridas, por favor, descargue la plantilla de Notas.")
         except Exception as e:
             st.error(f"Error al leer el archivo: {e}")
-
-
-
-def migrar_datos(df_fichas=None, df_notas=None):
-    st.success("✅ Datos almacenado exitosamente en la base de datos.")
-    pass
