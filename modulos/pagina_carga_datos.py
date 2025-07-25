@@ -6,66 +6,6 @@ from modulos.limpieza_datos import limpiar_fichas, limpiar_notas
 from modulos.migracion_datos import migrar_info_a_tablas_fichas, migrar_info_a_tablas_notas
 
 
-'''def pagina_carga_datos():
-    st.markdown(
-        """
-        <style>
-            .section-title {
-                font-size: 42px;
-                color: #071739;
-                text-align: center;
-                font-weight: 700;
-            }
-
-            .sub-section-title {
-                font-size: 24px;
-                color: #071739;
-                margin-top: 40px;
-                margin-bottom: 40px;
-                text-align: center;
-                font-weight: 600;
-                line-height: 1.4;
-                padding: 15px;
-                background: rgba(255, 255, 255, 0.7);
-                border-radius: 12px;
-                box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            }
-        </style>
-        """,
-        unsafe_allow_html=True
-    )
-
-    st.markdown("<div class='section-title' style='margin-top: -80px;'>Cargar Nuevos Datos</div>", unsafe_allow_html=True)
-
-    # ======================= PLANTILLAS =======================
-    st.markdown(
-        """
-        <div class='sub-section-title'>
-            Descargar Plantillas
-        </div>
-        """, 
-    unsafe_allow_html=True)
-
-    descargar_plantillas()
-
-    # ======================= CARGAR FICHAS =======================
-    st.markdown(
-        """
-        <div class='sub-section-title'>
-            Fichas-Socioeconómicas
-        </div>
-        """, 
-    unsafe_allow_html=True)
-
-    # ======================= CARGAR NOTAS =======================
-    st.markdown(
-        """
-        <div class='sub-section-title'>
-            Notas-Estudiantes
-        </div>
-        """, 
-    unsafe_allow_html=True)'''
-
 def pagina_carga_datos():
     st.markdown(
         """

@@ -1,26 +1,21 @@
 import numpy as np
 import pandas as pd
 
-import pandas as pd
-import numpy as np
 
 def limpiar_notas(df_notas):
-    # 1. Convertir 'ci_pasaporte' a string y rellenar con ceros (preservando nulos)
     def convertir_ci(val):
         if pd.isna(val):
-            return None  # o np.nan si prefieres
+            return None
         return str(val).zfill(10)
 
     df_notas["ci_pasaporte"] = df_notas["ci_pasaporte"].apply(convertir_ci)
 
-    # 2. Separar código y nombre de carrera
     if "carrera" in df_notas.columns:
         split_columnas = df_notas["carrera"].astype(str).str.split("-", n=-1)
         df_notas["nombre_carrera"] = split_columnas.str[-1].str.strip().str.upper()
         df_notas["codigo_carrera"] = split_columnas.str[:-1].str.join("-").str.strip().str.upper()
         df_notas.drop(columns=["carrera"], inplace=True)
 
-    # 3. Normalizar strings
     columnas_str = df_notas.select_dtypes(include=["object", "string"]).columns
     for col in columnas_str:
         df_notas[col] = df_notas[col].astype(str)
@@ -31,15 +26,12 @@ def limpiar_notas(df_notas):
             regex=True
         ).fillna("DESCONOCIDO")
 
-    # 4. Rellenar numéricos
     columnas_num = df_notas.select_dtypes(include=["number"]).columns
     df_notas[columnas_num] = df_notas[columnas_num].fillna(0)
 
-    # 5. Renombrar columnas si existen
     if "asignatura" in df_notas.columns:
         df_notas.rename(columns={"asignatura": "nombre_asignatura"}, inplace=True)
 
-    # 6. Verificación de nulos
     print("🔍 Valores nulos por columna (notas):")
     print(df_notas.isnull().sum().sort_values(ascending=False))
 
@@ -55,7 +47,6 @@ def limpiar_fichas(df_fichas):
     df_fichas["ci_pasaporte"] = df_fichas["ci_pasaporte"].apply(convertir_ci)
     df_fichas["telefono_contacto"] = df_fichas["telefono_contacto"].apply(convertir_ci)
 
-    # Convertir explícitamente a str antes de la concatenación
     df_fichas["nombres"] = (
         df_fichas["PrimerNombre"].fillna("").astype(str) + " " +
         df_fichas["SegunNombre"].fillna("").astype(str) + " " +

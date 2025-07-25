@@ -60,7 +60,6 @@ CREATE TABLE datos_salud (
     vacuna_covid character varying(70),
     antecedentes_patologicos_fam text,
     tiene_carnet_conadis boolean,
-    periodo_academico character varying(20),
     CONSTRAINT fk1_datos_salud FOREIGN KEY (id_estudiante)
         REFERENCES estudiante(id_estudiante)
         ON DELETE CASCADE
@@ -75,7 +74,6 @@ CREATE TABLE propiedades_extra (
     valor_propiedades numeric(10,2),
     num_vehiculos integer,
     valor_vehiculos numeric(10,2),
-    periodo_academico character varying(20),
     CONSTRAINT fk1_propiedades_extra FOREIGN KEY (id_estudiante)
         REFERENCES estudiante(id_estudiante)
         ON DELETE CASCADE
@@ -89,7 +87,6 @@ CREATE TABLE familia (
     integrantes_familia text,
     integrantes_aporte_economico text,
     cabezas_familia text,
-    periodo_academico character varying(20),
     CONSTRAINT fk1_familia FOREIGN KEY (id_estudiante)
         REFERENCES estudiante(id_estudiante)
         ON DELETE CASCADE
@@ -117,7 +114,6 @@ CREATE TABLE vivienda (
     tipo_vivienda character varying(100),
     condicion_vivienda character varying(100),
     servicios_vivienda text,
-    periodo_academico character varying(20),
     CONSTRAINT fk1_vivienda FOREIGN KEY (id_estudiante)
         REFERENCES estudiante(id_estudiante)
         ON DELETE CASCADE
@@ -130,7 +126,6 @@ CREATE TABLE economia_estudiante (
     id_estudiante integer,
     total_ingresos numeric(10,2),
     total_egresos numeric(10,2),
-    periodo_academico character varying(20),
     CONSTRAINT fk1_economia_estudiante FOREIGN KEY (id_estudiante)
         REFERENCES estudiante(id_estudiante)
         ON DELETE CASCADE
@@ -140,7 +135,7 @@ CREATE TABLE economia_estudiante (
 DROP TABLE IF EXISTS carrera CASCADE;
 CREATE TABLE carrera (
     id_carrera SERIAL PRIMARY KEY,
-    codigo_carrera  UNIQUE character varying(50),
+    codigo_carrera character varying(50) UNIQUE,
     nombre_carrera character varying(200)
 );
 

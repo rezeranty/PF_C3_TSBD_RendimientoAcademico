@@ -14,14 +14,7 @@ mongo_url_db = os.getenv("DB_MONGODB_ATLAS_URL")
 
 
 def cliente_postgresql():
-    "return psycopg2.connect(postgres_url_db)"
-    return psycopg2.connect(
-            host="localhost",         
-            database="fichasnotasdb",   
-            user="",
-            password="",
-            port="5432"
-        )
+    return psycopg2.connect(postgres_url_db)
 
 
 def cliente_mongodb():
