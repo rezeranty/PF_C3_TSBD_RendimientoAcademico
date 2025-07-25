@@ -1,4 +1,7 @@
 import plotly.graph_objects as go
+import pandas as pd
+import plotly.express as px
+
 
 from modulos.db_postgres_consultas import (
     estudiantes_por_sexo, estudiantes_por_genero, estudiantes_por_estado_civil,
@@ -192,20 +195,16 @@ def grafica_frecuencia_numero_matricula(id_carrera=None, periodo_academico=None)
     if not datos:
         return None
 
-    fig = go.Figure(data=[
-        go.Bar(
-            x=list(datos.keys()),
-            y=list(datos.values()),
-            marker_color='orange'
-        )
-    ])
+    fig = go.Figure(data=[go.Pie(
+        labels=list(datos.keys()),
+        values=list(datos.values()),
+        hole=0.4,  
+        marker=dict(colors=['#ffb84d', '#ffa31a', '#e69500', '#cc8400', '#b37400']), 
+        textinfo='percent+label'
+    )])
 
     fig.update_layout(
-        title=f"Frecuencia de Número de Matrículas por Estudiante",
-        xaxis_title="Número de Matrículas (Veces que repitió materia)",
-        yaxis_title="Número de Estudiantes",
-        xaxis=dict(tickmode='linear'),
-        bargap=0.2
+        title="Frecuencia de Número de Matrículas por Estudiante"
     )
 
     return fig
@@ -217,43 +216,43 @@ def grafica_porcentaje_asistencia_promedio(id_carrera=None, periodo_academico=No
     if not datos:
         return None
 
-    fig = go.Figure(data=[
-        go.Histogram(
-            x=datos,
-            nbinsx=20,
-            marker=dict(color='mediumseagreen'),
-        )
-    ])
+    df = pd.Series(datos)
+    bins = [0, 50, 60, 70, 80, 90, 100]
+    labels = ['0-49%', '50-59%', '60-69%', '70-79%', '80-89%', '90-100%']
+    grupos = pd.cut(df, bins=bins, labels=labels, include_lowest=True)
+    conteo = grupos.value_counts().sort_index()
+
+    fig = go.Figure(data=[go.Pie(
+        labels=conteo.index,
+        values=conteo.values,
+        hole=0.4,
+        marker=dict(colors=px.colors.sequential.Greens),
+        textinfo='percent+label'
+    )])
 
     fig.update_layout(
-        title=f"Distribución del Porcentaje Promedio de Asistencia",
-        xaxis_title="Porcentaje Promedio de Asistencia",
-        yaxis_title="Número de Estudiantes",
-        bargap=0.1,
+        title="Distribución del Porcentaje Promedio de Asistencia (Agrupada)"
     )
 
     return fig
 
 
-def grafica_estado_estudiante(id_carrera=None, periodo_academico=None):
+def grafica_estado_estudiante(id_carrera=None, periodo_academico=None): 
     datos = estado_estudiante_frecuencia(id_carrera, periodo_academico)
 
     if not datos:
         return None
 
-    fig = go.Figure(data=[
-        go.Bar(
-            x=list(datos.keys()),
-            y=list(datos.values()),
-            marker_color='mediumseagreen'
-        )
-    ])
+    fig = go.Figure(data=[go.Pie(
+        labels=list(datos.keys()),
+        values=list(datos.values()),
+        hole=0.4,  
+        marker=dict(colors=['mediumseagreen', 'lightgreen', 'darkseagreen', 'seagreen']), 
+        textinfo='percent+label'  
+    )])
 
     fig.update_layout(
-        title=f"Estado Académico de los Estudiantes",
-        xaxis_title="Estado Estudiante",
-        yaxis_title="Número de Estudiantes",
-        xaxis_tickangle=-20
+        title="Estado Académico de los Estudiantes"
     )
 
     return fig

@@ -183,10 +183,3 @@ def agregar_graficas_estadisticas(filtro_carrera, filtro_periodo, carreras_ids):
         st.plotly_chart(ge.grafica_frecuencia_numero_matricula(carrera_id, periodo), use_container_width=True)
     
 
-    st.markdown(
-    """
-        <div class='sub-section-title'>
-            ANÁLISIS DE FACTORES QUE AFECTAN AL RENDIMIENTO ACADÉMICO
-        </div>
-    """,unsafe_allow_html=True
-    )
